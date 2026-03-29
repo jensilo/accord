@@ -1,0 +1,48 @@
+@page "/templates"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@using Accord.Web.Domain.Parser
+@inject ITemplateService TemplateService
+
+<PageTitle>Templates</PageTitle>
+
+<h1 class="mb-4">Templates</h1>
+
+@if (_sets == null)
+{
+    <p class="text-muted">Loading...</p>
+}
+else if (_sets.Count == 0)
+{
+    <p class="text-muted">No template sets found.</p>
+}
+else
+{
+    @foreach (var set in _sets)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">@set.Name <small class="text-muted fw-normal">v@set.Version</small></h5>
+                <p class="mb-0 text-muted small">@set.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var t in set.Templates)
+                {
+                    <li class="list-group-item">
+                        <a href="/templates/@t.Id">@t.Name</a>
+                        <small class="text-muted ms-2">v@t.Version</small>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+
+@code {
+    private List<TemplateSet>? _sets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _sets = await TemplateService.GetTemplateSets();
+    }
+}

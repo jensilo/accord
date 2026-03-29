@@ -1,0 +1,93 @@
+@page "/templates/{Id:guid}"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@using Accord.Web.Domain.Parser
+@inject ITemplateService TemplateService
+
+<PageTitle>@(_template?.Name ?? "Template")</PageTitle>
+
+@if (_template == null)
+{
+    <p class="text-muted">Template not found.</p>
+}
+else
+{
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/templates">Templates</a></li>
+            <li class="breadcrumb-item active">@_template.Name</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-1">@_template.Name</h1>
+    <p class="text-muted mb-4">
+        @_template.TemplateSet.Name v@_template.TemplateSet.Version
+        &middot; Template v@_template.Version
+    </p>
+
+    @if (!string.IsNullOrEmpty(_config?.Description))
+    {
+        <p>@_config.Description</p>
+    }
+
+    <h3 class="mt-4 mb-3">Variants</h3>
+
+    @foreach (var (_, variant) in _config?.Variants ?? [])
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <strong>@variant.Name</strong>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(variant.Description))
+                {
+                    <p class="text-muted">@variant.Description</p>
+                }
+                @if (!string.IsNullOrEmpty(variant.Example))
+                {
+                    <blockquote class="blockquote border-start ps-3 mb-3">
+                        <p class="mb-0 fst-italic text-muted small">@variant.Example</p>
+                    </blockquote>
+                }
+                <ol class="list-group list-group-numbered">
+                    @foreach (var ruleKey in variant.Rules)
+                    {
+                        @if (_config!.Rules.TryGetValue(ruleKey, out var rule))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div>
+                                        <strong>@rule.Name</strong>
+                                        @if (rule.Optional)
+                                        {
+                                            <span class="badge bg-secondary ms-1">optional</span>
+                                        }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(rule.Hint))
+                                    {
+                                        <div class="text-muted small">@rule.Hint</div>
+                                    }
+                                </div>
+                                <span class="badge bg-light text-dark border">@rule.Type</span>
+                            </li>
+                        }
+                    }
+                </ol>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private Template? _template;
+    private TemplateConfig? _config;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _template = await TemplateService.GetTemplate(Id);
+        if (_template != null)
+            _config = TemplateService.ParseConfig(_template);
+    }
+}

@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+
+# .NET build outputs
+[Bb]in/
+[Oo]bj/
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Local settings overrides
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+
+# Test results
+TestResults/
+*.trx
+*.coveragexml
+coverage/
+
+# Claude Code workspace
+.claude/

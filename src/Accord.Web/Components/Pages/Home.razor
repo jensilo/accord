@@ -1,0 +1,17 @@
+@page "/"
+
+<PageTitle>Accord</PageTitle>
+
+<div class="py-5 text-center">
+    <h1>Accord</h1>
+    <p class="lead">Requirements elicitation using the PARIS pattern language.</p>
+    <AuthorizeView>
+        <Authorized>
+            <p class="text-muted">Signed in as @context.User.FindFirst(ClaimTypes.Email)?.Value</p>
+            <a href="/eiffel" class="btn btn-primary btn-lg">Open EIFFEL</a>
+        </Authorized>
+        <NotAuthorized>
+            <a href="/auth/login" class="btn btn-primary btn-lg">Sign in</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

@@ -1,0 +1,24 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found — Accord</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="text-center py-5">
+                <pre class="text-muted mx-auto mb-3" style="font-family: monospace; font-size: 0.95rem; display: inline-block; line-height: 1.5;">
+  .-"""-.
+ /  o o  \
+|  (._.)  |
+ \  ---  /
+  '-----'
+  |     |
+ _|_____|_</pre>
+                <h1 class="display-6 mt-2">Requirement #404: This page.</h1>
+                <p class="text-muted">Status: <em>not found.</em> The requirements elicitor searched everywhere and came back empty-handed.</p>
+                <a href="/" class="btn btn-primary">Go home</a>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

@@ -24,5 +24,6 @@ public class RequirementService(AppDbContext db) : IRequirementService
             .Include(r => r.Template)
             .Where(r => r.UserId == userId)
             .OrderByDescending(r => r.CreatedAt)
+            .Take(150)
             .ToListAsync();
 }

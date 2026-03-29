@@ -376,4 +376,44 @@ Phase 3 is complete.
    - Azure Bicep files for Container Apps hosting the app + Azure Database for PostgreSQL
    - GitHub Actions workflow: build container → push to GitHub Container Registry (GHCR) → deploy to Azure Container Apps
 
+---
+
+## Session 15 — 2026-03-29
+
+**Context:** UX modernisation of the EIFFEL elicitation interface. Bootstrap 5 enhanced approach (no framework swap).
+
+**What was done:**
+
+- **`ParisParser.cs` — `DisplayType.For()`**: Changed return values: `equals` → `"readonly"` (was `"text"`), `equalsAny` → `"datalist"` (was `"select"`). These are consumed only by `Elicitation.razor`.
+- **`RequirementService.cs`**: Added `.Take(150)` to `GetByUserAsync` — limits history at the DB query level.
+- **`wwwroot/eiffel.js`** (new): Keyboard shortcuts (Ctrl+F → open template picker modal; Alt+Enter → trigger check button; Alt+← / Alt+→ → previous/next variant), clipboard copy, Bootstrap tooltip init, modal show/hide helpers.
+- **`App.razor`**: Added `<script src="eiffel.js">` reference after blazor.web.js.
+- **`app.css`**: Added styles for `.eiffel-fixed` (readonly pre-filled fields), `.eiffel-info` (circular "i" tooltip trigger), `.eiffel-info-placeholder` (alignment spacer), `.history-item` (history panel buttons), and `kbd` sizing.
+- **`Elicitation.razor`** — complete rewrite:
+  - Template picker is now a Bootstrap modal (Ctrl+F or "Ändern" button), with a search box and a button-grid of templates — replaces the always-visible scrollable list.
+  - `equals` fields are now rendered as gray readonly inputs (tabindex=-1, Tab skips them); pre-populated from `PrefillFixedValues()` on template/variant select.
+  - `equalsAny` fields are now `<input>` + `<datalist>` instead of `<select>` — user can type freely or pick from the list.
+  - Per-field "i" info icon (circular badge, Bootstrap tooltip) shown when `rule.Explanation` is set.
+  - Collapsible accordion (Schablonenaufbau, Beispielsatz, Beschreibung) shown when data exists; Schablonenaufbau computed from variant rules (`<Name>` / `[Name]` / fixed value).
+  - Variant keyboard hint (Alt+←/→) shown inline next to variant buttons.
+  - Right-column history panel always rendered (not conditional); shows last 150 requirements, click-to-copy.
+  - On successful check: auto-saves to DB, auto-copies to clipboard, clears form (fixed fields re-prefilled), refocuses first editable field, shows 3-second success banner.
+  - Implements `IAsyncDisposable`; `eiffel.dispose()` called on component teardown.
+  - `OnAfterRenderAsync` handles tooltip re-init and focus-first-input via flags (`_needsTooltipInit`, `_needsFocusFirstInput`).
+- Build: 0 errors, 0 warnings. All 37 tests pass.
+
+**Key decisions:**
+
+- **Ctrl+F for template picker** (not Alt+F): Alt+F on German Mac layout produces "ƒ", which is not useful. Ctrl+F on macOS does not conflict with browser find (Cmd+F does). On Windows/Linux Ctrl+F would conflict — acceptable trade-off given academic/Mac-primary use context.
+- **No "auto-store" toggle**: Always save to DB + auto-copy on successful check. Simpler than HARMONY's per-session option.
+- **Bootstrap 5 enhanced** (no MudBlazor / Tailwind): The real work was functional improvements, not cosmetic. Zero new tooling needed.
+- **`GetSchablonenaufbau()` called multiple times in template**: Avoids Razor parser issue with `@{ var x = ...; }` inside nested `@if` blocks.
+
+**What comes next:**
+
+- Login page visual polish (more appealing card-based layout, same Bootstrap 5).
+- Consider sending a separate agent to redesign the magic link email template (plain-text or simple HTML).
+- Phase 4: Localisation (`.resx`, `IStringLocalizer`, `en`/`de`).
+- Deployment: Bicep / GitHub Actions / Azure Container Apps.
+
 <!-- New sessions go above this line, most recent first is fine, or append — pick one convention and stick to it -->

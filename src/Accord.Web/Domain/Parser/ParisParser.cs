@@ -69,8 +69,8 @@ public static class DisplayType
 {
     public static string For(RuleDefinition rule) => rule.Type switch
     {
-        "equals" => "text",
-        "equalsAny" => "select",
+        "equals" => "readonly",
+        "equalsAny" => "datalist",
         _ => rule.Size is "large" or "full" ? "textarea" : "text"
     };
 }

@@ -75,13 +75,13 @@ Goal: Core product feature — interactive requirements elicitation.
 
 Goal: German + English language support, consistent styling, production-ready.
 
-- [ ] `.resx` resource files for English and German
-- [ ] `IStringLocalizer` wired into components
-- [ ] Translate all UI strings (port from HARMONY `translations/en.json` and `de.json`)
-- [ ] Language detection from browser `Accept-Language` header
-- [ ] Error pages (404, 500)
-- [ ] Review Bootstrap usage — consistent look matching HARMONY's general feel
-- [ ] Production Docker image (multi-stage, non-root user)
+- [x] `.resx` resource files for English and German
+- [x] `IStringLocalizer` wired into components
+- [x] Translate all UI strings (port from HARMONY `translations/en.json` and `de.json`)
+- [x] Language detection from browser `Accept-Language` header
+- [x] Error pages (404, 500)
+- [x] Review Bootstrap usage — consistent look matching HARMONY's general feel
+- [x] Production Docker image (multi-stage, non-root user)
 - [ ] Environment variable documentation
 
 **Done when:** The app is fully bilingual, stable, and deployable.

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="PageTitle"><value>EIFFEL — Accord</value></data>
+  <data name="PickerModalLabel"><value>Choose template</value></data>
+  <data name="PickerSearchPlaceholder"><value>Search templates…</value></data>
+  <data name="PickerNoResults"><value>No templates found.</value></data>
+  <data name="NoTemplateSelected"><value>Choose a template to get started.</value></data>
+  <data name="CurrentTemplate"><value>Current template</value></data>
+  <data name="ChangeTemplate"><value>Change</value></data>
+  <data name="PickTemplate"><value>Choose template</value></data>
+  <data name="VariantLabel"><value>Template variant</value></data>
+  <data name="SectionAufbau"><value>Template structure</value></data>
+  <data name="SectionExample"><value>Example sentence</value></data>
+  <data name="SectionDescription"><value>Description</value></data>
+  <data name="FormHeading"><value>Capture requirement</value></data>
+  <data name="Optional"><value>(optional)</value></data>
+  <data name="ErrorPrefix"><value>Error:</value></data>
+  <data name="CheckButton"><value>Check requirement</value></data>
+  <data name="HistoryHeading"><value>Recently captured requirements</value></data>
+  <data name="HistoryCount"><value>Your last {0}/150 captured requirements. Click to copy.</value></data>
+  <data name="HistoryEmpty"><value>No requirements captured yet.</value></data>
+  <data name="HistoryCopyTitle"><value>Click to copy</value></data>
+  <data name="HistoryDelete"><value>Clear</value></data>
+  <data name="SavedMessage"><value>Requirement captured and copied to clipboard.</value></data>
+</root>

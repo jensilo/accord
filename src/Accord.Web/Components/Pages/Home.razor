@@ -1,17 +1,19 @@
 @page "/"
+@inject IStringLocalizer<Home> L
 
 <PageTitle>Accord</PageTitle>
 
-<div class="py-5 text-center">
-    <h1>Accord</h1>
-    <p class="lead">Requirements elicitation using the PARIS pattern language.</p>
+<div class="home-hero text-center py-5 px-3 rounded-3 mt-3">
+    <p class="home-eyebrow">@L["Eyebrow"]</p>
+    <h1 class="home-title">Accord</h1>
+    <p class="lead text-muted mt-2 mb-4">@L["Tagline"]</p>
     <AuthorizeView>
         <Authorized>
-            <p class="text-muted">Signed in as @context.User.FindFirst(ClaimTypes.Email)?.Value</p>
-            <a href="/eiffel" class="btn btn-primary btn-lg">Open EIFFEL</a>
+            <p class="text-muted small mb-3">@L["SignedInAs"] @context.User.FindFirst(ClaimTypes.Email)?.Value</p>
+            <a href="/eiffel" class="btn btn-primary btn-lg px-5">@L["OpenEiffel"]</a>
         </Authorized>
         <NotAuthorized>
-            <a href="/auth/login" class="btn btn-primary btn-lg">Sign in</a>
+            <a href="/auth/login" class="btn btn-primary btn-lg px-5">@L["SignIn"]</a>
         </NotAuthorized>
     </AuthorizeView>
 </div>

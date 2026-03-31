@@ -1,9 +1,31 @@
 namespace Accord.Web.Domain.Parser;
 
+public record ParserMessages(
+    string FieldEmpty,        // {0} = field name
+    string ExpectedValue,     // {0} = expected, {1} = actual
+    string ExpectedOneOf      // {0} = values list, {1} = actual
+)
+{
+    public static readonly ParserMessages De = new(
+        "Pflichtfeld \u201e{0}\u201c ist leer.",
+        "Erwartet \u201e{0}\u201c, erhalten \u201e{1}\u201c.",
+        "Erwartet eines von: {0}. Erhalten: \u201e{1}\u201c."
+    );
+
+    public static readonly ParserMessages En = new(
+        "Required field '{0}' is empty.",
+        "Expected '{0}', got '{1}'.",
+        "Expected one of: {0}. Got '{1}'."
+    );
+}
+
 public static class ParisParser
 {
-    public static ParsingResult Parse(TemplateConfig config, string variantKey, Dictionary<string, string> segments)
+    public static ParsingResult Parse(TemplateConfig config, string variantKey, Dictionary<string, string> segments,
+        ParserMessages? messages = null)
     {
+        messages ??= ParserMessages.En;
+
         if (!config.Variants.TryGetValue(variantKey, out var variant))
             throw new InvalidOperationException($"Variant '{variantKey}' does not exist in template '{config.Id}'.");
 
@@ -19,7 +41,7 @@ public static class ParisParser
 
             if (isMissing)
             {
-                var message = $"Required field '{rule.Name}' is empty.";
+                var message = string.Format(messages.FieldEmpty, rule.Name);
                 if (rule.Optional)
                     result.Notices.Add(new ParsingLog(ruleKey, rule.Name, ParsingLogLevel.Notice, message, Downgrade: true));
                 else
@@ -35,7 +57,7 @@ public static class ParisParser
                 var expected = rule.GetValues()[0];
                 if (!string.Equals(trimmed, expected, StringComparison.OrdinalIgnoreCase))
                     validationError = new ParsingLog(ruleKey, rule.Name, ParsingLogLevel.Error,
-                        $"Expected '{expected}', got '{trimmed}'.");
+                        string.Format(messages.ExpectedValue, expected, trimmed));
             }
             else if (rule.Type == "equalsAny")
             {
@@ -43,7 +65,7 @@ public static class ParisParser
                 var lower = trimmed.ToLowerInvariant();
                 if (!values.Any(v => v.ToLowerInvariant() == lower))
                     validationError = new ParsingLog(ruleKey, rule.Name, ParsingLogLevel.Error,
-                        $"Expected one of: {string.Join(", ", values)}. Got '{trimmed}'.");
+                        string.Format(messages.ExpectedOneOf, string.Join(", ", values), trimmed));
             }
 
             if (validationError is not null)

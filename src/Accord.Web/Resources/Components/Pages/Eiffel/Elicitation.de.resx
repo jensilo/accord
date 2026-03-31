@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="PageTitle"><value>EIFFEL — Accord</value></data>
+  <data name="PickerModalLabel"><value>Schablone wählen</value></data>
+  <data name="PickerSearchPlaceholder"><value>Schablone suchen…</value></data>
+  <data name="PickerNoResults"><value>Keine Schablonen gefunden.</value></data>
+  <data name="NoTemplateSelected"><value>Wählen Sie eine Schablone, um zu beginnen.</value></data>
+  <data name="CurrentTemplate"><value>Aktuelle Schablone</value></data>
+  <data name="ChangeTemplate"><value>Ändern</value></data>
+  <data name="PickTemplate"><value>Schablone wählen</value></data>
+  <data name="VariantLabel"><value>Schablonenvariante</value></data>
+  <data name="SectionAufbau"><value>Schablonenaufbau</value></data>
+  <data name="SectionExample"><value>Beispielsatz</value></data>
+  <data name="SectionDescription"><value>Beschreibung</value></data>
+  <data name="FormHeading"><value>Anforderung erfassen</value></data>
+  <data name="Optional"><value>(optional)</value></data>
+  <data name="ErrorPrefix"><value>Fehler:</value></data>
+  <data name="CheckButton"><value>Anforderung prüfen</value></data>
+  <data name="HistoryHeading"><value>Zuletzt erfasste Anforderungen</value></data>
+  <data name="HistoryCount"><value>Ihre letzten {0}/150 erfassten Anforderungen. Klicken zum Kopieren.</value></data>
+  <data name="HistoryEmpty"><value>Noch keine Anforderungen erfasst.</value></data>
+  <data name="HistoryCopyTitle"><value>Klicken zum Kopieren</value></data>
+  <data name="HistoryDelete"><value>Löschen</value></data>
+  <data name="SavedMessage"><value>Anforderung erfasst und in Zwischenablage kopiert.</value></data>
+</root>

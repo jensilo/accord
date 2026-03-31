@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="PageTitle"><value>Sign in — Accord</value></data>
+  <data name="Eyebrow"><value>Pattern-based Requirements Elicitation</value></data>
+  <data name="EmailLabel"><value>Email address</value></data>
+  <data name="EmailPlaceholder"><value>you@example.com</value></data>
+  <data name="SubmitButton"><value>Send magic link</value></data>
+  <data name="SubmitButtonLoading"><value>Sending…</value></data>
+  <data name="SuccessHeading"><value>Check your email.</value></data>
+  <data name="SuccessBody"><value>We've sent a sign-in link to</value></data>
+  <data name="SuccessExpiry"><value>The link expires in 15 minutes.</value></data>
+  <data name="ErrorGeneric"><value>Something went wrong. Please try again.</value></data>
+</root>

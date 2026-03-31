@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="Eyebrow"><value>Pattern-based Requirements Elicitation</value></data>
+  <data name="Tagline"><value>Structured requirements elicitation using controlled natural languages.</value></data>
+  <data name="SignedInAs"><value>Signed in as</value></data>
+  <data name="OpenEiffel"><value>Open EIFFEL</value></data>
+  <data name="SignIn"><value>Sign in</value></data>
+</root>

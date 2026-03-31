@@ -6,6 +6,8 @@ using Accord.Web.Infrastructure.Seeding;
 using Accord.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,15 +45,32 @@ builder.Services
 
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
 
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
+    // Trust X-Forwarded-Proto/For from ACA's ingress proxy so that
+    // HTTPS scheme is visible to the app (magic link URLs, HSTS, etc.)
+    var forwardedOptions = new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    };
+    forwardedOptions.KnownIPNetworks.Clear();
+    forwardedOptions.KnownProxies.Clear();
+    app.UseForwardedHeaders(forwardedOptions);
+
     app.UseExceptionHandler("/error");
     app.UseHsts();
     app.UseHttpsRedirection();
 }
+
+var supportedCultures = new[] { "de", "en" };
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .SetDefaultCulture("de")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures));
 
 app.UseStaticFiles();
 app.UseAuthentication();
@@ -79,6 +98,18 @@ app.MapGet("/auth/logout", async (HttpContext http) =>
 {
     await http.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     return Results.Redirect("/");
+});
+
+app.MapGet("/culture/set", (string culture, string redirectUri, HttpContext http) =>
+{
+    var supported = new[] { "de", "en" };
+    if (!supported.Contains(culture)) return Results.BadRequest();
+    http.Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true }
+    );
+    return Results.LocalRedirect(redirectUri);
 });
 
 app.MapRazorComponents<App>()

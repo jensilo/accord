@@ -5,17 +5,18 @@
 @inject IRequirementService RequirementService
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IJSRuntime JS
+@inject IStringLocalizer<Elicitation> L
 @implements IAsyncDisposable
 
-<PageTitle>EIFFEL — Accord</PageTitle>
+<PageTitle>@L["PageTitle"]</PageTitle>
 
 <!-- Template Picker Modal -->
-<div class="modal fade" id="template-picker-modal" tabindex="-1" aria-label="Schablone wählen">
+<div class="modal fade" id="template-picker-modal" tabindex="-1" aria-label="@L["PickerModalLabel"]">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0 pb-1">
                 <input id="template-search" class="form-control form-control-lg" type="search"
-                       placeholder="Schablone suchen…"
+                       placeholder="@L["PickerSearchPlaceholder"]"
                        @bind="_modalSearch" @bind:event="oninput"
                        autocomplete="off" />
             </div>
@@ -31,7 +32,7 @@
                     }
                     @if (!FilteredModalTemplates.Any())
                     {
-                        <p class="text-muted mb-0 small">Keine Schablonen gefunden.</p>
+                        <p class="text-muted mb-0 small">@L["PickerNoResults"]</p>
                     }
                 </div>
             </div>
@@ -50,11 +51,11 @@
             <div>
                 @if (_config is null)
                 {
-                    <p class="text-muted mb-0">Wählen Sie eine Schablone, um zu beginnen.</p>
+                    <p class="text-muted mb-0">@L["NoTemplateSelected"]</p>
                 }
                 else
                 {
-                    <div class="text-muted small">Aktuelle Schablone</div>
+                    <div class="text-muted small">@L["CurrentTemplate"]</div>
                     <div class="fw-semibold fs-5 lh-sm">@_selectedTemplate!.Name</div>
                     @if (!string.IsNullOrEmpty(_config.Description))
                     {
@@ -62,30 +63,38 @@
                     }
                 }
             </div>
-            <button type="button" class="btn btn-outline-secondary btn-sm shrink-0"
-                    @onclick="OpenTemplatePicker">
-                @(_config is null ? "Schablone wählen" : "Ändern") <kbd class="ms-1">Ctrl+F</kbd>
-            </button>
+            @if (_config is null)
+            {
+                <button type="button" class="btn btn-primary shrink-0"
+                        @onclick="OpenTemplatePicker">
+                    @L["PickTemplate"]
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-outline-secondary btn-sm shrink-0"
+                        @onclick="OpenTemplatePicker">
+                    @L["ChangeTemplate"] <span class="text-muted fw-normal ms-1" style="font-size:0.7em;">Alt+K</span>
+                </button>
+            }
         </div>
 
         @if (_config is not null && ActiveVariant is not null)
         {
             <!-- Variant picker -->
-            <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
-                <div class="btn-group flex-wrap" role="group" aria-label="Schablonenvariante">
+            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                <div class="eiffel-variants d-flex flex-wrap gap-1" role="group" aria-label="@L["VariantLabel"]">
                     @foreach (var (key, variant) in _config.Variants)
                     {
                         <input type="radio" class="btn-check" name="variant" id="variant-@key"
                                checked="@(_selectedVariantKey == key)"
                                @onchange="() => SelectVariantAsync(key)" />
-                        <label class="btn btn-outline-secondary btn-sm" for="variant-@key">
+                        <label class="btn btn-sm eiffel-variant-btn" for="variant-@key">
                             @variant.Name
                         </label>
                     }
                 </div>
-                <span class="text-muted small">
-                    <kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>→</kbd>
-                </span>
+                <span class="text-muted eiffel-kbd-hint">Alt L / R</span>
             </div>
 
             <!-- Collapsible template info -->
@@ -99,7 +108,7 @@
                                 <button class="accordion-button collapsed py-2 small" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#info-aufbau"
                                         aria-expanded="false" aria-controls="info-aufbau">
-                                    Schablonenaufbau
+                                    @L["SectionAufbau"]
                                 </button>
                             </h2>
                             <div id="info-aufbau" class="accordion-collapse collapse">
@@ -114,7 +123,7 @@
                                 <button class="accordion-button collapsed py-2 small" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#info-beispiel"
                                         aria-expanded="false" aria-controls="info-beispiel">
-                                    Beispielsatz
+                                    @L["SectionExample"]
                                 </button>
                             </h2>
                             <div id="info-beispiel" class="accordion-collapse collapse">
@@ -129,7 +138,7 @@
                                 <button class="accordion-button collapsed py-2 small" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#info-beschreibung"
                                         aria-expanded="false" aria-controls="info-beschreibung">
-                                    Beschreibung
+                                    @L["SectionDescription"]
                                 </button>
                             </h2>
                             <div id="info-beschreibung" class="accordion-collapse collapse">
@@ -141,9 +150,9 @@
             }
 
             <!-- Elicitation form -->
-            <div id="eiffel-form">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <h6 class="text-muted text-uppercase small fw-semibold mb-0">Anforderung erfassen</h6>
+            <div id="eiffel-form" @key="_formKey">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="text-muted text-uppercase small fw-semibold mb-0">@L["FormHeading"]</h6>
                 </div>
                 <div class="row g-2 mb-3">
                     @foreach (var ruleKey in ActiveVariant.Rules)
@@ -162,6 +171,7 @@
                         <div class="@colClass">
                             @if (displayType == "readonly")
                             {
+                                <div class="eiffel-label-placeholder" aria-hidden="true"></div>
                                 <input type="text" id="@inputId"
                                        class="form-control form-control-sm eiffel-fixed"
                                        value="@(rule.GetValues().FirstOrDefault() ?? string.Empty)"
@@ -184,7 +194,7 @@
                                         @rule.Name
                                         @if (rule.Optional)
                                         {
-                                            <span class="text-muted fw-normal ms-1">(optional)</span>
+                                            <span class="text-muted fw-normal ms-1">@L["Optional"]</span>
                                         }
                                     </label>
                                 </div>
@@ -225,17 +235,20 @@
                 <!-- Parsing feedback -->
                 @if (_parsingResult is not null)
                 {
-                    @foreach (var log in _parsingResult.Errors)
+                    @if (_touchedFields.Count > 0)
                     {
-                        <div class="text-danger small mb-1"><strong>Fehler:</strong> @log.Message</div>
-                    }
-                    @foreach (var log in _parsingResult.Warnings)
-                    {
-                        <div class="text-warning small mb-1">@log.Message</div>
-                    }
-                    @foreach (var log in _parsingResult.Notices)
-                    {
-                        <div class="text-muted small mb-1">@log.Message</div>
+                        @foreach (var log in _parsingResult.Errors)
+                        {
+                            <div class="text-danger small mb-1"><strong>@L["ErrorPrefix"]</strong> @log.Message</div>
+                        }
+                        @foreach (var log in _parsingResult.Warnings)
+                        {
+                            <div class="text-warning small mb-1">@log.Message</div>
+                        }
+                        @foreach (var log in _parsingResult.Notices)
+                        {
+                            <div class="text-muted small mb-1">@log.Message</div>
+                        }
                     }
                     @if (!string.IsNullOrWhiteSpace(_parsingResult.Requirement))
                     {
@@ -250,7 +263,7 @@
                         class="btn btn-primary w-100 py-2"
                         disabled="@(!CanSave)"
                         @onclick="CheckRequirementAsync">
-                    Anforderung prüfen <kbd class="ms-2">Alt+Enter</kbd>
+                    @L["CheckButton"] <kbd class="ms-2">Alt+Enter</kbd>
                 </button>
 
                 <!-- Status message -->
@@ -266,14 +279,22 @@
 
     <!-- Right: Requirement history -->
     <div class="col-lg-4">
-        <h6 class="text-muted text-uppercase small fw-semibold mb-1">Zuletzt erfasste Anforderungen</h6>
+        <div class="d-flex align-items-baseline justify-content-between mb-1">
+            <h6 class="text-muted text-uppercase small fw-semibold mb-0">@L["HistoryHeading"]</h6>
+            @if (_recentRequirements.Count > 0)
+            {
+                <button type="button" class="btn btn-link btn-sm text-danger p-0 small"
+                        @onclick="DeleteAllAsync">
+                    @L["HistoryDelete"]
+                </button>
+            }
+        </div>
         <p class="text-muted small mb-3">
-            Ihre letzten @(_recentRequirements.Count > 0 ? _recentRequirements.Count.ToString() : "0")/150 erfassten Anforderungen.
-            Klicken zum Kopieren.
+            @string.Format(L["HistoryCount"], _recentRequirements.Count)
         </p>
         @if (_recentRequirements.Count == 0)
         {
-            <p class="text-muted fst-italic small">Noch keine Anforderungen erfasst.</p>
+            <p class="text-muted fst-italic small">@L["HistoryEmpty"]</p>
         }
         else
         {
@@ -281,7 +302,7 @@
                 @foreach (var req in _recentRequirements)
                 {
                     <button type="button" class="btn history-item"
-                            title="Klicken zum Kopieren"
+                            title="@L["HistoryCopyTitle"]"
                             @onclick="() => CopyToClipboardAsync(req.Content)">
                         @req.Content
                     </button>
@@ -309,6 +330,8 @@
     private bool _statusIsSuccess;
     private bool _needsTooltipInit;
     private bool _needsFocusFirstInput;
+    private HashSet<string> _touchedFields = new();
+    private int _formKey;
 
     private IEnumerable<Template> FilteredModalTemplates =>
         _templateSets
@@ -368,6 +391,7 @@
         _config = TemplateService.ParseConfig(template);
         _selectedVariantKey = _config.Variants.Keys.FirstOrDefault();
         _fieldValues = new();
+        _touchedFields = new();
         _parsingResult = null;
         _statusMessage = null;
         PrefillFixedValues();
@@ -381,6 +405,7 @@
     {
         _selectedVariantKey = key;
         _fieldValues = new();
+        _touchedFields = new();
         _parsingResult = null;
         PrefillFixedValues();
         RunParser();
@@ -407,6 +432,7 @@
     private void OnFieldChange(string ruleKey, string value)
     {
         _fieldValues[ruleKey] = value;
+        _touchedFields.Add(ruleKey);
         _statusMessage = null;
         RunParser();
     }
@@ -414,11 +440,17 @@
     private void RunParser()
     {
         if (_config is null || _selectedVariantKey is null) return;
-        _parsingResult = ParisParser.Parse(_config, _selectedVariantKey, _fieldValues);
+        var messages = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
+            ? ParserMessages.De
+            : ParserMessages.En;
+        _parsingResult = ParisParser.Parse(_config, _selectedVariantKey, _fieldValues, messages);
     }
 
     private async Task CheckRequirementAsync()
     {
+        if (ActiveVariant is not null)
+            foreach (var key in ActiveVariant.Rules) _touchedFields.Add(key);
+
         if (!CanSave || _selectedTemplate is null || _parsingResult is null || _userId == Guid.Empty) return;
 
         var requirement = _parsingResult.Requirement;
@@ -430,10 +462,12 @@
 
         _fieldValues = new();
         PrefillFixedValues();
+        _touchedFields = new();
+        _formKey++;
         _parsingResult = null;
         RunParser();
 
-        _statusMessage = "Anforderung erfasst und in Zwischenablage kopiert.";
+        _statusMessage = L["SavedMessage"];
         _statusIsSuccess = true;
         _needsFocusFirstInput = true;
 
@@ -442,6 +476,12 @@
             _statusMessage = null;
             InvokeAsync(StateHasChanged);
         }, TaskContinuationOptions.NotOnCanceled);
+    }
+
+    private async Task DeleteAllAsync()
+    {
+        await RequirementService.DeleteAllAsync(_userId);
+        _recentRequirements = [];
     }
 
     private async Task CopyToClipboardAsync(string text) =>

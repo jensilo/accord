@@ -15,8 +15,7 @@ WORKDIR /app
 COPY --from=build /app .
 COPY --from=build /source/docs ./docs
 
-RUN adduser -D appuser && chown -R appuser /app
-USER appuser
+USER app
 
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080

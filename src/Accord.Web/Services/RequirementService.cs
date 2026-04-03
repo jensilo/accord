@@ -21,7 +21,9 @@ public class RequirementService(AppDbContext db) : IRequirementService
 
     public async Task DeleteAllAsync(Guid userId)
     {
-        await db.Requirements.Where(r => r.UserId == userId).ExecuteDeleteAsync();
+        var requirements = await db.Requirements.Where(r => r.UserId == userId).ToListAsync();
+        db.Requirements.RemoveRange(requirements);
+        await db.SaveChangesAsync();
     }
 
     public async Task<IReadOnlyList<Requirement>> GetByUserAsync(Guid userId) =>

@@ -117,4 +117,42 @@ public class RequirementServiceTests
 
         results.Should().BeEmpty();
     }
+
+    // ---------------------------------------------------------------------------
+    // DeleteAllAsync
+    // ---------------------------------------------------------------------------
+
+    [Fact]
+    public async Task DeleteAllAsync_RemovesOnlySpecifiedUsersRequirements()
+    {
+        var db = CreateDb();
+        var service = new RequirementService(db);
+        var (_, templateId) = await SeedTemplateAsync(db);
+
+        var user1 = Guid.NewGuid();
+        var user2 = Guid.NewGuid();
+
+        await service.SaveAsync(user1, templateId, "User1 Req A");
+        await service.SaveAsync(user1, templateId, "User1 Req B");
+        await service.SaveAsync(user2, templateId, "User2 Req");
+
+        await service.DeleteAllAsync(user1);
+
+        var user1Results = await service.GetByUserAsync(user1);
+        var user2Results = await service.GetByUserAsync(user2);
+
+        user1Results.Should().BeEmpty();
+        user2Results.Should().ContainSingle(r => r.Content == "User2 Req");
+    }
+
+    [Fact]
+    public async Task DeleteAllAsync_NoRequirements_DoesNotThrow()
+    {
+        var db = CreateDb();
+        var service = new RequirementService(db);
+
+        var act = async () => await service.DeleteAllAsync(Guid.NewGuid());
+
+        await act.Should().NotThrowAsync();
+    }
 }

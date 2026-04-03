@@ -1,6 +1,6 @@
 # Accord
 
-**Accord** is a ground-up rewrite of [HARMONY](https://github.com/org-harmony/harmony), a tool for template-based requirements elicitation — in particular for Reduced Natural Languages such as [PARIS](https://www.researchgate.net/publication/363630019_Anforderungen_strukturiert_mit_Schablonen_dokumentieren_in_PARIS).
+**Accord** is a ground-up rewrite of [HARMONY](https://github.com/org-harmony/harmony), a tool for template-based requirements elicitation — in particular for Controlled Natural Languages (CNLs, or Pattern Languages) such as [PARIS](https://www.researchgate.net/publication/363630019_Anforderungen_strukturiert_mit_Schablonen_dokumentieren_in_PARIS).
 
 ## What is this?
 

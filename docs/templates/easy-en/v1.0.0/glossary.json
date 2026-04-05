@@ -1,0 +1,43 @@
+{
+  "id": "glossary",
+  "type": "easy-en",
+  "name": "Glossary Entry",
+  "version": "1.0.0",
+  "description": "Defines a term used in the project domain. Helps establish a shared vocabulary across the team.",
+  "rules": {
+    "term": {
+      "name": "Term",
+      "type": "placeholder",
+      "hint": "The term to define, e.g. Invoice, Session, Tenant",
+      "size": "small"
+    },
+    "colon": {
+      "name": ":",
+      "type": "equals",
+      "value": ":",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "definition": {
+      "name": "Definition",
+      "type": "placeholder",
+      "hint": "What does this term mean in this project's context?",
+      "size": "full"
+    },
+    "period": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Glossary entry",
+      "description": "A term and its definition for the project glossary.",
+      "example": "Invoice: A document issued to a customer summarising goods or services provided and the amount owed.",
+      "rules": ["term", "colon", "definition", "period"]
+    }
+  }
+}

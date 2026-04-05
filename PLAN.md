@@ -122,15 +122,15 @@ Easy (DE) — `docs/templates/easy-de/v1.0.0/`:
 
 ### Phase 5 tasks
 
-- [ ] Fix PARIS template JSON version mismatch: update `"version"` in all `docs/templates/paris/v0.6.2/*.json` from `0.1.0` to `0.6.2` so the per-template version matches the directory/set version; add an EF migration (or seeder cleanup pass) to delete the stale `0.1.0` `Template` rows from the database
-- [ ] Add `Family` string to `TemplateSet` entity + EF Core migration
-- [ ] Generalise `TemplateSeeder` to 3-level scan (`docs/templates/` root → family dir → version dir → files); derive `Family` from directory name; update `TemplateOptions.DefinitionsPath` default to `docs/templates`
-- [ ] Update `TemplateService.GetAllTemplatesAsync()` (or equivalent) to return only the latest-version templates per set
-- [ ] Define Easy (EN) template JSON files (6 templates listed above)
-- [ ] Define Easy (DE) template JSON files (6 templates listed above)
-- [ ] Add family filter chips to `Elicitation.razor` template picker modal (dynamic, based on distinct `Family` values); combine with existing full-text search
-- [ ] Add localisation strings for Easy template family labels (EN/DE)
-- [ ] Verify parser behaviour with Easy template structures (no parser changes expected)
+- [x] Fix PARIS template JSON version mismatch: update `"version"` in all `docs/templates/paris/v0.6.2/*.json` from `0.1.0` to `0.6.2` so the per-template version matches the directory/set version; add an EF migration (or seeder cleanup pass) to delete the stale `0.1.0` `Template` rows from the database
+- [x] Add `Family` string to `TemplateSet` entity + EF Core migration
+- [x] Generalise `TemplateSeeder` to 3-level scan (`docs/templates/` root → family dir → version dir → files); derive `Family` from directory name; update `TemplateOptions.DefinitionsPath` default to `docs/templates`
+- [x] Update `TemplateService.GetAllTemplatesAsync()` (or equivalent) to return only the latest-version templates per set
+- [x] Define Easy (EN) template JSON files (6 templates listed above)
+- [x] Define Easy (DE) template JSON files (6 templates listed above)
+- [x] Add family filter chips to `Elicitation.razor` template picker modal (dynamic, based on distinct `Family` values); combine with existing full-text search
+- [x] Add localisation strings for Easy template family labels (EN/DE)
+- [x] Verify parser behaviour with Easy template structures (no parser changes expected)
 
 **Done when:** All Easy (EN) and Easy (DE) templates are seeded and appear in the picker under their respective filter. The PARIS filter shows existing PARIS templates. Full-text search respects the active family filter. A user can elicit a requirement using any Easy template.
 

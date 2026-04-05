@@ -1,0 +1,67 @@
+{
+  "id": "qualitaet-easy",
+  "type": "easy-de",
+  "name": "Qualität",
+  "version": "1.0.0",
+  "description": "Beschreibt eine nicht-funktionale (Qualitäts-)Anforderung in Bereichen wie Performance, Zuverlässigkeit oder Sicherheit.",
+  "rules": {
+    "das": {
+      "name": "Das",
+      "type": "equals",
+      "value": "Das",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "Wie heißt das System?",
+      "size": "small"
+    },
+    "modalitaet": {
+      "name": "Modalität",
+      "type": "equalsAny",
+      "hint": "Wie verbindlich ist diese Anforderung?",
+      "value": ["muss", "soll", "sollte", "kann"],
+      "size": "small"
+    },
+    "qualitaetsdimension": {
+      "name": "Qualitätsdimension",
+      "type": "equalsAny",
+      "hint": "Qualitätsdimension wählen oder eingeben",
+      "value": [
+        "schnell sein",
+        "zuverlässig sein",
+        "sicher sein",
+        "bedienbar sein",
+        "verfügbar sein",
+        "wartbar sein",
+        "skalierbar sein",
+        "portierbar sein",
+        "interoperabel sein"
+      ],
+      "extra": { "allowOthers": true },
+      "size": "medium"
+    },
+    "kriterium": {
+      "name": "Kriterium",
+      "type": "placeholder",
+      "hint": "Messbares Kriterium angeben, z. B. indem 95 % der Anfragen in unter 200 ms beantwortet werden",
+      "size": "full"
+    },
+    "punkt": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Qualität",
+      "description": "Eine nicht-funktionale Anforderung mit einem messbaren Qualitätskriterium.",
+      "example": "Das System soll schnell sein, indem 95 % der Anfragen unter normaler Last in weniger als 200 ms beantwortet werden.",
+      "rules": ["das", "system", "modalitaet", "qualitaetsdimension", "kriterium", "punkt"]
+    }
+  }
+}

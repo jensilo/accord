@@ -34,7 +34,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<TemplateSet>(e =>
         {
             e.HasKey(s => s.Id);
-            e.HasIndex(s => new { s.Name, s.Version }).IsUnique();
+            e.HasIndex(s => new { s.Family, s.Name, s.Version }).IsUnique();
+            e.Property(s => s.Family).HasMaxLength(50);
             e.Property(s => s.Name).HasMaxLength(200);
             e.Property(s => s.Version).HasMaxLength(50);
             e.Property(s => s.Description).HasMaxLength(2000);

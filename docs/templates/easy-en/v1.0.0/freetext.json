@@ -1,0 +1,23 @@
+{
+  "id": "freetext",
+  "type": "easy-en",
+  "name": "Freetext",
+  "version": "1.0.0",
+  "description": "A free-form requirement with no imposed structure or validation. Use this when no template fits or when you simply want to record something as-is.",
+  "rules": {
+    "text": {
+      "name": "Requirement text",
+      "type": "placeholder",
+      "hint": "Enter any requirement text",
+      "optional": true,
+      "ignoreMissingWhenOptional": true,
+      "size": "full"
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Freetext",
+      "rules": ["text"]
+    }
+  }
+}

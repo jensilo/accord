@@ -1,0 +1,67 @@
+{
+  "id": "quality",
+  "type": "easy-en",
+  "name": "Quality",
+  "version": "1.0.0",
+  "description": "Describes a non-functional (quality) requirement across dimensions such as performance, reliability, or security.",
+  "rules": {
+    "the": {
+      "name": "The",
+      "type": "equals",
+      "value": "The",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "What is the system called?",
+      "size": "small"
+    },
+    "modality": {
+      "name": "Modality",
+      "type": "equalsAny",
+      "hint": "How binding is this requirement?",
+      "value": ["shall", "should", "must", "may"],
+      "size": "small"
+    },
+    "quality-dimension": {
+      "name": "Quality dimension",
+      "type": "equalsAny",
+      "hint": "Select or type a quality dimension",
+      "value": [
+        "be fast",
+        "be reliable",
+        "be secure",
+        "be usable",
+        "be available",
+        "be maintainable",
+        "be scalable",
+        "be portable",
+        "be interoperable"
+      ],
+      "extra": { "allowOthers": true },
+      "size": "medium"
+    },
+    "criterion": {
+      "name": "Criterion",
+      "type": "placeholder",
+      "hint": "Specify the measurable criterion, e.g. responding to 95% of requests within 200 ms",
+      "size": "full"
+    },
+    "period": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Quality",
+      "description": "A non-functional requirement specifying a measurable quality criterion.",
+      "example": "The application shall be fast, responding to 95% of requests within 200 ms under normal load.",
+      "rules": ["the", "system", "modality", "quality-dimension", "criterion", "period"]
+    }
+  }
+}

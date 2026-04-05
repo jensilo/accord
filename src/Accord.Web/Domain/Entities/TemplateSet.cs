@@ -6,5 +6,6 @@ public class TemplateSet
     public string Name { get; set; } = default!;
     public string Version { get; set; } = default!;
     public string Description { get; set; } = default!;
+    public string Family { get; set; } = default!;
     public ICollection<Template> Templates { get; set; } = [];
 }

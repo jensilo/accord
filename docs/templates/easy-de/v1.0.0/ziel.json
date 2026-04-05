@@ -1,0 +1,74 @@
+{
+  "id": "ziel-easy",
+  "type": "easy-de",
+  "name": "Ziel",
+  "version": "1.0.0",
+  "description": "Beschreibt ein Ziel oder einen angestrebten Zustand, den das System erreichen soll, mit optionaler Begründung.",
+  "rules": {
+    "das": {
+      "name": "Das",
+      "type": "equals",
+      "value": "Das",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "Wie heißt das System? z. B. Anwendung, Plattform, Dienst",
+      "size": "small"
+    },
+    "modalitaet": {
+      "name": "Modalität",
+      "type": "equalsAny",
+      "hint": "Wie verbindlich ist dieses Ziel?",
+      "value": ["muss", "soll", "sollte", "kann"],
+      "size": "small"
+    },
+    "ziel": {
+      "name": "Ziel",
+      "type": "placeholder",
+      "hint": "Was soll das System erreichen? z. B. mindestens 10.000 gleichzeitige Nutzer unterstützen",
+      "size": "full"
+    },
+    "komma-weil": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "weil": {
+      "name": "weil",
+      "type": "equals",
+      "value": "weil",
+      "size": "small"
+    },
+    "begruendung": {
+      "name": "Begründung",
+      "type": "placeholder",
+      "hint": "Warum ist dieses Ziel wichtig? z. B. das System nach dem Launch stark wachsen wird",
+      "size": "full"
+    },
+    "punkt": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "mit-begruendung": {
+      "name": "Mit Begründung",
+      "description": "Ein Ziel mit einer Erklärung, warum es wichtig ist.",
+      "example": "Das System soll mindestens 10.000 gleichzeitige Nutzer unterstützen, weil das System nach dem Launch stark wachsen wird.",
+      "rules": ["das", "system", "modalitaet", "ziel", "komma-weil", "weil", "begruendung", "punkt"]
+    },
+    "ohne-begruendung": {
+      "name": "Ohne Begründung",
+      "description": "Ein Ziel ohne explizite Begründung.",
+      "example": "Die Plattform soll ein Single-Sign-On-Erlebnis bieten.",
+      "rules": ["das", "system", "modalitaet", "ziel", "punkt"]
+    }
+  }
+}

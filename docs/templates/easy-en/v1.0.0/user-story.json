@@ -1,0 +1,80 @@
+{
+  "id": "user-story",
+  "type": "easy-en",
+  "name": "User Story",
+  "version": "1.0.0",
+  "description": "Captures a requirement from a user's perspective using the classic user story format.",
+  "rules": {
+    "as-a": {
+      "name": "As a",
+      "type": "equals",
+      "value": "As a",
+      "size": "small"
+    },
+    "role": {
+      "name": "Role",
+      "type": "placeholder",
+      "hint": "Who is this user? e.g. registered user, admin",
+      "size": "small"
+    },
+    "comma-i-want": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "i-want": {
+      "name": "I want",
+      "type": "equals",
+      "value": "I want",
+      "size": "small"
+    },
+    "capability": {
+      "name": "Capability",
+      "type": "placeholder",
+      "hint": "What does the user want to do? e.g. to reset my password",
+      "size": "full"
+    },
+    "comma-so-that": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "so-that": {
+      "name": "so that",
+      "type": "equals",
+      "value": "so that",
+      "size": "small"
+    },
+    "benefit": {
+      "name": "Benefit",
+      "type": "placeholder",
+      "hint": "Why does the user want this? e.g. I can regain access without contacting support",
+      "size": "full"
+    },
+    "period": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "with-benefit": {
+      "name": "With benefit",
+      "description": "A user story with a role, capability, and benefit (the classic three-part format).",
+      "example": "As a registered user, I want to reset my password, so that I can regain access without contacting support.",
+      "rules": ["as-a", "role", "comma-i-want", "i-want", "capability", "comma-so-that", "so-that", "benefit", "period"]
+    },
+    "without-benefit": {
+      "name": "Without benefit",
+      "description": "A shorter user story with just a role and capability.",
+      "example": "As a registered user, I want to reset my password.",
+      "rules": ["as-a", "role", "comma-i-want", "i-want", "capability", "period"]
+    }
+  }
+}

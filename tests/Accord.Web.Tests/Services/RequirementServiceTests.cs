@@ -19,7 +19,7 @@ public class RequirementServiceTests
         var templateId = Guid.NewGuid();
         db.TemplateSets.Add(new TemplateSet
         {
-            Id = setId, Name = "Test Set", Version = "1.0", Description = "Test"
+            Id = setId, Family = "test", Name = "Test Set", Version = "1.0", Description = "Test"
         });
         db.Templates.Add(new Template
         {

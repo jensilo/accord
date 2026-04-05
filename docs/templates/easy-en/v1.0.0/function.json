@@ -1,0 +1,57 @@
+{
+  "id": "function",
+  "type": "easy-en",
+  "name": "Function",
+  "version": "1.0.0",
+  "description": "Describes a functional requirement: what the system shall do to or with something.",
+  "rules": {
+    "the": {
+      "name": "The",
+      "type": "equals",
+      "value": "The",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "What is the system called? e.g. application, service, module",
+      "size": "small"
+    },
+    "modality": {
+      "name": "Modality",
+      "type": "equalsAny",
+      "hint": "How binding is this requirement?",
+      "value": ["shall", "should", "must", "may"],
+      "size": "small"
+    },
+    "action": {
+      "name": "Action",
+      "type": "placeholder",
+      "hint": "What does the system do? e.g. validate, generate, send, display",
+      "size": "medium"
+    },
+    "object": {
+      "name": "Object",
+      "type": "placeholder",
+      "hint": "What is acted upon? e.g. the user's email address, an invoice, search results",
+      "optional": true,
+      "ignoreMissingWhenOptional": true,
+      "size": "full"
+    },
+    "period": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Function",
+      "description": "A functional requirement describing what the system shall do.",
+      "example": "The service shall send a confirmation email to the user after successful registration.",
+      "rules": ["the", "system", "modality", "action", "object", "period"]
+    }
+  }
+}

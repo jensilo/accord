@@ -1,0 +1,80 @@
+{
+  "id": "nutzererlebnis",
+  "type": "easy-de",
+  "name": "Nutzererlebnis",
+  "version": "1.0.0",
+  "description": "Erfasst eine Anforderung aus Nutzersicht im klassischen User-Story-Format.",
+  "rules": {
+    "als": {
+      "name": "Als",
+      "type": "equals",
+      "value": "Als",
+      "size": "small"
+    },
+    "rolle": {
+      "name": "Rolle",
+      "type": "placeholder",
+      "hint": "Wer ist der Nutzer? z. B. registrierter Nutzer, Administrator",
+      "size": "small"
+    },
+    "komma-moechte": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "moechte-ich": {
+      "name": "möchte ich",
+      "type": "equals",
+      "value": "möchte ich",
+      "size": "small"
+    },
+    "funktion": {
+      "name": "Funktion",
+      "type": "placeholder",
+      "hint": "Was möchte der Nutzer tun? z. B. mein Passwort zurücksetzen",
+      "size": "full"
+    },
+    "komma-damit": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "damit": {
+      "name": "damit",
+      "type": "equals",
+      "value": "damit",
+      "size": "small"
+    },
+    "nutzen": {
+      "name": "Nutzen",
+      "type": "placeholder",
+      "hint": "Warum möchte der Nutzer das? z. B. ich ohne Supportkontakt wieder Zugang erhalte",
+      "size": "full"
+    },
+    "punkt": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "mit-nutzen": {
+      "name": "Mit Nutzen",
+      "description": "Eine User Story mit Rolle, Funktion und Nutzen (klassisches Drei-Teile-Format).",
+      "example": "Als registrierter Nutzer, möchte ich mein Passwort zurücksetzen, damit ich ohne Supportkontakt wieder Zugang erhalte.",
+      "rules": ["als", "rolle", "komma-moechte", "moechte-ich", "funktion", "komma-damit", "damit", "nutzen", "punkt"]
+    },
+    "ohne-nutzen": {
+      "name": "Ohne Nutzen",
+      "description": "Eine kürzere User Story mit Rolle und Funktion.",
+      "example": "Als registrierter Nutzer, möchte ich mein Passwort zurücksetzen.",
+      "rules": ["als", "rolle", "komma-moechte", "moechte-ich", "funktion", "punkt"]
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "goal",
+  "type": "easy-en",
+  "name": "Goal",
+  "version": "1.0.0",
+  "description": "Describes a goal or objective the system should achieve, with an optional rationale.",
+  "rules": {
+    "the": {
+      "name": "The",
+      "type": "equals",
+      "value": "The",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "What is the system called? e.g. application, platform, service",
+      "size": "small"
+    },
+    "modality": {
+      "name": "Modality",
+      "type": "equalsAny",
+      "hint": "How binding is this goal?",
+      "value": ["shall", "should", "must", "may"],
+      "size": "small"
+    },
+    "goal": {
+      "name": "Goal",
+      "type": "placeholder",
+      "hint": "What should the system achieve? e.g. support at least 10,000 concurrent users",
+      "size": "full"
+    },
+    "comma-because": {
+      "name": ",",
+      "type": "equals",
+      "value": ",",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "because": {
+      "name": "because",
+      "type": "equals",
+      "value": "because",
+      "size": "small"
+    },
+    "rationale": {
+      "name": "Rationale",
+      "type": "placeholder",
+      "hint": "Why is this goal important? e.g. the system is expected to grow significantly after launch",
+      "size": "full"
+    },
+    "period": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "with-rationale": {
+      "name": "With rationale",
+      "description": "A goal with an explanation of why it matters.",
+      "example": "The application shall support at least 10,000 concurrent users, because the system is expected to grow significantly after launch.",
+      "rules": ["the", "system", "modality", "goal", "comma-because", "because", "rationale", "period"]
+    },
+    "without-rationale": {
+      "name": "Without rationale",
+      "description": "A goal stated without an explicit rationale.",
+      "example": "The platform shall provide a single sign-on experience.",
+      "rules": ["the", "system", "modality", "goal", "period"]
+    }
+  }
+}

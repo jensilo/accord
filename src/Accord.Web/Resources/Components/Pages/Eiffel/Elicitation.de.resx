@@ -10,6 +10,7 @@
   <data name="PageTitle"><value>EIFFEL — Accord</value></data>
   <data name="PickerModalLabel"><value>Schablone wählen</value></data>
   <data name="PickerSearchPlaceholder"><value>Schablone suchen…</value></data>
+  <data name="FamilyAll"><value>Alle</value></data>
   <data name="PickerNoResults"><value>Keine Schablonen gefunden.</value></data>
   <data name="NoTemplateSelected"><value>Wählen Sie eine Schablone, um zu beginnen.</value></data>
   <data name="CurrentTemplate"><value>Aktuelle Schablone</value></data>

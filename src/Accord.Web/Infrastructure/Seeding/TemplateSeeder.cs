@@ -9,7 +9,7 @@ namespace Accord.Web.Infrastructure.Seeding;
 
 public class TemplateOptions
 {
-    public string DefinitionsPath { get; set; } = "docs/templates/paris";
+    public string DefinitionsPath { get; set; } = "docs/templates";
 }
 
 public class TemplateSeeder(AppDbContext db, IOptions<TemplateOptions> options, IHostEnvironment env, ILogger<TemplateSeeder> logger)
@@ -26,11 +26,24 @@ public class TemplateSeeder(AppDbContext db, IOptions<TemplateOptions> options, 
             return;
         }
 
-        foreach (var versionDir in Directory.GetDirectories(basePath).OrderBy(d => d))
-            await SeedVersionAsync(versionDir);
+        // Migrate legacy TemplateSets that were seeded before the Family field existed
+        var legacySets = await db.TemplateSets.Where(s => s.Family == "").ToListAsync();
+        if (legacySets.Count > 0)
+        {
+            foreach (var s in legacySets) s.Family = "paris";
+            await db.SaveChangesAsync();
+            logger.LogInformation("Migrated {Count} legacy template set(s) to family 'paris'", legacySets.Count);
+        }
+
+        foreach (var familyDir in Directory.GetDirectories(basePath).OrderBy(d => d))
+        {
+            var family = Path.GetFileName(familyDir);
+            foreach (var versionDir in Directory.GetDirectories(familyDir).OrderBy(d => d))
+                await SeedVersionAsync(family, versionDir);
+        }
     }
 
-    private async Task SeedVersionAsync(string dir)
+    private async Task SeedVersionAsync(string family, string dir)
     {
         var dirName = Path.GetFileName(dir);
         var version = dirName.StartsWith('v') ? dirName[1..] : dirName;
@@ -51,20 +64,21 @@ public class TemplateSeeder(AppDbContext db, IOptions<TemplateOptions> options, 
         foreach (var (type, templates) in byType)
         {
             var setName = type.ToUpperInvariant();
-            var set = await db.TemplateSets.FirstOrDefaultAsync(s => s.Name == setName && s.Version == version);
+            var set = await db.TemplateSets.FirstOrDefaultAsync(s => s.Family == family && s.Name == setName && s.Version == version);
 
             if (set == null)
             {
                 set = new TemplateSet
                 {
                     Id = Guid.NewGuid(),
+                    Family = family,
                     Name = setName,
                     Version = version,
-                    Description = $"PARIS {setName} templates v{version}"
+                    Description = $"{family}/{setName} templates v{version}"
                 };
                 db.TemplateSets.Add(set);
                 await db.SaveChangesAsync();
-                logger.LogInformation("Created template set {Name} v{Version}", setName, version);
+                logger.LogInformation("Created template set {Family}/{Name} v{Version}", family, setName, version);
             }
 
             foreach (var (config, rawJson) in templates)
@@ -90,6 +104,18 @@ public class TemplateSeeder(AppDbContext db, IOptions<TemplateOptions> options, 
             }
 
             await db.SaveChangesAsync();
+
+            // Remove stale templates whose version no longer matches the seeded version
+            var seededVersions = templates.Select(t => t.config.Version).ToHashSet();
+            var stale = await db.Templates
+                .Where(t => t.TemplateSetId == set.Id && !seededVersions.Contains(t.Version))
+                .ToListAsync();
+            if (stale.Count > 0)
+            {
+                db.Templates.RemoveRange(stale);
+                await db.SaveChangesAsync();
+                logger.LogInformation("Removed {Count} stale template(s) from set {Name} v{Version}", stale.Count, setName, version);
+            }
         }
     }
 }

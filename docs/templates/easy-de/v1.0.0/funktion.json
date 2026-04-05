@@ -1,0 +1,57 @@
+{
+  "id": "funktion-easy",
+  "type": "easy-de",
+  "name": "Funktion",
+  "version": "1.0.0",
+  "description": "Beschreibt eine funktionale Anforderung: Was das System tun oder verarbeiten soll.",
+  "rules": {
+    "das": {
+      "name": "Das",
+      "type": "equals",
+      "value": "Das",
+      "size": "small"
+    },
+    "system": {
+      "name": "System",
+      "type": "placeholder",
+      "hint": "Wie heißt das System? z. B. Anwendung, Dienst, Modul",
+      "size": "small"
+    },
+    "modalitaet": {
+      "name": "Modalität",
+      "type": "equalsAny",
+      "hint": "Wie verbindlich ist diese Anforderung?",
+      "value": ["muss", "soll", "sollte", "kann"],
+      "size": "small"
+    },
+    "aktion": {
+      "name": "Aktion",
+      "type": "placeholder",
+      "hint": "Was tut das System? z. B. validieren, erzeugen, senden, anzeigen",
+      "size": "medium"
+    },
+    "objekt": {
+      "name": "Objekt",
+      "type": "placeholder",
+      "hint": "Womit wird etwas getan? z. B. die E-Mail-Adresse, eine Rechnung, Suchergebnisse",
+      "optional": true,
+      "ignoreMissingWhenOptional": true,
+      "size": "full"
+    },
+    "punkt": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Funktion",
+      "description": "Eine funktionale Anforderung, die beschreibt, was das System tun soll.",
+      "example": "Der Dienst soll nach erfolgreicher Registrierung eine Bestätigungs-E-Mail an den Nutzer senden.",
+      "rules": ["das", "system", "modalitaet", "aktion", "objekt", "punkt"]
+    }
+  }
+}

@@ -10,11 +10,17 @@ public class TemplateService(AppDbContext db) : ITemplateService
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    public Task<List<TemplateSet>> GetTemplateSets() =>
-        db.TemplateSets
+    public async Task<List<TemplateSet>> GetTemplateSets()
+    {
+        var all = await db.TemplateSets
             .Include(s => s.Templates.OrderBy(t => t.Name))
-            .OrderBy(s => s.Name)
             .ToListAsync();
+        return all
+            .GroupBy(s => new { s.Family, s.Name })
+            .Select(g => g.OrderByDescending(s => s.Version).First())
+            .OrderBy(s => s.Family).ThenBy(s => s.Name)
+            .ToList();
+    }
 
     public Task<List<Template>> GetTemplates(Guid templateSetId) =>
         db.Templates.Where(t => t.TemplateSetId == templateSetId).OrderBy(t => t.Name).ToListAsync();

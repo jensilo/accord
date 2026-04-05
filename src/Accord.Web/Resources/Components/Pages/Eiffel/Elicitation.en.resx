@@ -10,6 +10,7 @@
   <data name="PageTitle"><value>EIFFEL — Accord</value></data>
   <data name="PickerModalLabel"><value>Choose template</value></data>
   <data name="PickerSearchPlaceholder"><value>Search templates…</value></data>
+  <data name="FamilyAll"><value>All</value></data>
   <data name="PickerNoResults"><value>No templates found.</value></data>
   <data name="NoTemplateSelected"><value>Choose a template to get started.</value></data>
   <data name="CurrentTemplate"><value>Current template</value></data>

@@ -1,0 +1,23 @@
+{
+  "id": "freitext",
+  "type": "easy-de",
+  "name": "Freitext",
+  "version": "1.0.0",
+  "description": "Eine freiformige Anforderung ohne vorgegebene Struktur oder Validierung. Verwenden Sie dieses Format, wenn keine Schablone passt oder wenn etwas einfach festgehalten werden soll.",
+  "rules": {
+    "text": {
+      "name": "Anforderungstext",
+      "type": "placeholder",
+      "hint": "Beliebigen Anforderungstext eingeben",
+      "optional": true,
+      "ignoreMissingWhenOptional": true,
+      "size": "full"
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Freitext",
+      "rules": ["text"]
+    }
+  }
+}

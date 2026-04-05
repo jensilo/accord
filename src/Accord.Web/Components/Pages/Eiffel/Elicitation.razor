@@ -14,11 +14,26 @@
 <div class="modal fade" id="template-picker-modal" tabindex="-1" aria-label="@L["PickerModalLabel"]">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header border-0 pb-1">
+            <div class="modal-header border-0 pb-1 flex-column align-items-stretch gap-2">
                 <input id="template-search" class="form-control form-control-lg" type="search"
                        placeholder="@L["PickerSearchPlaceholder"]"
                        @bind="_modalSearch" @bind:event="oninput"
                        autocomplete="off" />
+                <div class="d-flex flex-wrap gap-1">
+                    <button type="button"
+                            class="btn btn-sm @(_familyFilter is null ? "btn-secondary" : "btn-outline-secondary")"
+                            @onclick="() => _familyFilter = null">
+                        @L["FamilyAll"]
+                    </button>
+                    @foreach (var family in ModalFamilies)
+                    {
+                        <button type="button"
+                                class="btn btn-sm @(_familyFilter == family ? "btn-secondary" : "btn-outline-secondary")"
+                                @onclick="() => _familyFilter = family">
+                            @FamilyLabel(family)
+                        </button>
+                    }
+                </div>
             </div>
             <div class="modal-body pt-2" style="max-height: 60vh; overflow-y: auto;">
                 <div class="d-flex flex-wrap gap-2">
@@ -319,6 +334,7 @@
     private List<TemplateSet> _templateSets = [];
     private List<Requirement> _recentRequirements = [];
     private string _modalSearch = "";
+    private string? _familyFilter;
     private Guid _userId;
 
     private Template? _selectedTemplate;
@@ -333,11 +349,23 @@
     private HashSet<string> _touchedFields = new();
     private int _formKey;
 
+    private IEnumerable<string> ModalFamilies =>
+        _templateSets.Select(s => s.Family).Distinct().Order();
+
     private IEnumerable<Template> FilteredModalTemplates =>
         _templateSets
+            .Where(s => _familyFilter is null || s.Family == _familyFilter)
             .SelectMany(s => s.Templates)
             .Where(t => string.IsNullOrWhiteSpace(_modalSearch) ||
                         t.Name.Contains(_modalSearch, StringComparison.OrdinalIgnoreCase));
+
+    private static string FamilyLabel(string family) => family switch
+    {
+        "paris" => "PARIS",
+        "easy-en" => "Easy (EN)",
+        "easy-de" => "Easy (DE)",
+        _ => family.ToUpperInvariant()
+    };
 
     private VariantDefinition? ActiveVariant =>
         _config is not null && _selectedVariantKey is not null &&
@@ -382,6 +410,7 @@
     private void OpenTemplatePicker()
     {
         _modalSearch = "";
+        _familyFilter = null;
         JS.InvokeVoidAsync("eiffel.showModal", "template-picker-modal");
     }
 

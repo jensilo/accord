@@ -1,0 +1,43 @@
+{
+  "id": "glossar-easy",
+  "type": "easy-de",
+  "name": "Glossareintrag",
+  "version": "1.0.0",
+  "description": "Definiert einen Begriff aus dem Projektbereich. Hilft, ein gemeinsames Vokabular im Team zu etablieren.",
+  "rules": {
+    "begriff": {
+      "name": "Begriff",
+      "type": "placeholder",
+      "hint": "Der zu definierende Begriff, z. B. Rechnung, Sitzung, Mandant",
+      "size": "small"
+    },
+    "doppelpunkt": {
+      "name": ":",
+      "type": "equals",
+      "value": ":",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    },
+    "definition": {
+      "name": "Definition",
+      "type": "placeholder",
+      "hint": "Was bedeutet dieser Begriff im Kontext dieses Projekts?",
+      "size": "full"
+    },
+    "punkt": {
+      "name": ".",
+      "type": "equals",
+      "value": ".",
+      "size": "small",
+      "extra": { "before": "", "after": "" }
+    }
+  },
+  "variants": {
+    "default": {
+      "name": "Glossareintrag",
+      "description": "Ein Begriff und seine Definition für das Projektglossar.",
+      "example": "Rechnung: Ein Dokument, das an einen Kunden ausgestellt wird und die erbrachten Leistungen sowie den zu zahlenden Betrag zusammenfasst.",
+      "rules": ["begriff", "doppelpunkt", "definition", "punkt"]
+    }
+  }
+}

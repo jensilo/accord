@@ -128,6 +128,11 @@ namespace Accord.Web.Infrastructure.Data.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
+                    b.Property<string>("Family")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -140,7 +145,7 @@ namespace Accord.Web.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "Version")
+                    b.HasIndex("Family", "Name", "Version")
                         .IsUnique();
 
                     b.ToTable("TemplateSets");

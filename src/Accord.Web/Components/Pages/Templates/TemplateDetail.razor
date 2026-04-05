@@ -1,7 +1,6 @@
 @page "/templates/{Id:guid}"
 @attribute [Authorize]
 @rendermode InteractiveServer
-@using Accord.Web.Domain.Parser
 @inject ITemplateService TemplateService
 
 <PageTitle>@(_template?.Name ?? "Template")</PageTitle>

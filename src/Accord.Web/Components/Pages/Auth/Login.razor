@@ -3,6 +3,7 @@
 @inject IMailService MailService
 @inject NavigationManager Navigation
 @inject IStringLocalizer<Login> L
+@inject ILogger<Login> Logger
 
 <PageTitle>@L["PageTitle"]</PageTitle>
 
@@ -66,8 +67,9 @@
             sentTo = user.Email;
             sent = true;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.LogError(ex, "Magic link send failed for {Email}", email);
             error = L["ErrorGeneric"];
         }
         finally

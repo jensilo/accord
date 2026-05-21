@@ -1,6 +1,8 @@
 name: Build and Push
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -31,3 +33,6 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+
+      - name: Trigger Coolify deploy
+        run: curl -fsSL -X GET "${{ secrets.COOLIFY_DEPLOY_WEBHOOK }}"

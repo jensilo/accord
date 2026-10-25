@@ -38,7 +38,7 @@ public class MailService(IOptions<MailOptions> options) : IMailService
         await client.ConnectAsync(o.Host, o.Port, o.UseTls ? SecureSocketOptions.Auto : SecureSocketOptions.None);
 
         if (!string.IsNullOrEmpty(o.Username))
-            await client.AuthenticateAsync(o.Username, o.Password);
+            await client.AuthenticateAsync(o.Username, o.Password ?? string.Empty);
 
         await client.SendAsync(message);
         await client.DisconnectAsync(true);

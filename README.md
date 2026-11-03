@@ -1,35 +1,75 @@
 # Accord
 
-**Accord** is a ground-up rewrite of [HARMONY](https://github.com/org-harmony/harmony), a tool for template-based requirements elicitation — in particular for Controlled Natural Languages (CNLs, or Pattern Languages) such as [PARIS](https://www.researchgate.net/publication/363630019_Anforderungen_strukturiert_mit_Schablonen_dokumentieren_in_PARIS).
+Accord is a web application for template-based requirements elicitation. It supports Controlled Natural Languages (CNLs, or pattern languages) such as [PARIS](https://www.researchgate.net/publication/363630019_Anforderungen_strukturiert_mit_Schablonen_dokumentieren_in_PARIS).
 
-## What is this?
+Accord tries to rewrite [HARMONY](https://github.com/org-harmony/harmony) in C#. HARMONY is the original tool and it is in use.
 
-HARMONY was originally implemented in Go. While Go is a solid language, the original implementation accumulated friction over time: it felt unidiomatic, the architecture was not well-suited for object-oriented thinking, and it became increasingly hard for students and contributors to maintain or extend.
+> **Notice:** Accord is for educational purposes. It is not a replacement for HARMONY.
 
-Accord addresses this directly.
+![Run-through: sign in, choose a template, fill in the fields, save the requirement](docs/images/accord-demo.webp)
 
-## Why the rewrite?
-
-| Concern | Decision |
-|---|---|
-| Go's functional/structural style doesn't map well to requirements domain concepts (entities, relationships, rules) | Rewrite in **C# / .NET** — OOP is a natural fit for this domain |
-| Complex frontend with HTMX partial rendering + hand-rolled Go templates | Replace with **Blazor Server** — interactive components without the complexity |
-| OAuth2 with external providers — unnecessary for an academic tool | Replace with **Magic Link** email authentication — simple, no external dependencies |
-| Per-user template management — rarely used, high complexity | Remove — default PARIS templates are served to all users |
-| Too many moving parts for a focused elicitation tool | **KISS** — strip to the core: authenticate, pick a template, elicit a requirement |
+[Watch as MP4 with player controls](docs/images/accord-demo.mp4) (1 min)
 
 ## What it does
 
-Accord allows users to write structured requirements based on templates — particularly the **PARIS** pattern language. The elicitation interface (EIFFEL) guides users through template variants, validates inputs in real time, and produces well-formed requirement statements. Requirement data never leaves the browser.
+1. The user signs in with a magic link sent by email.
+2. The user selects a PARIS template and a variant.
+3. The elicitation interface (EIFFEL) checks each input and shows the requirement sentence during input.
+4. The application saves the requirement and copies it to the clipboard.
+
+The PARIS templates are in German, so the requirement text is in German. The home page, sign-in page, and EIFFEL support German and English. The template pages use English.
+
+| Elicitation | Templates |
+| --- | --- |
+| ![EIFFEL elicitation page with saved requirements](docs/images/accord-eiffel.webp) | ![List of PARIS templates](docs/images/accord-templates.webp) |
+
+![Magic link sign-in](docs/images/accord-login.webp)
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Browser -- SignalR --> Pages
+    subgraph App["Accord.Web (Blazor Server)"]
+        Pages["Razor components<br/>Login, Templates, EIFFEL"]
+        Pages --> Services["Services<br/>Auth, Mail, Template, Requirement"]
+        Pages --> Parser["ParisParser"]
+        Seeder["TemplateSeeder"]
+    end
+    Files[("PARIS template files<br/>JSON")] --> Seeder
+    Seeder --> DB
+    Services -- EF Core --> DB[("PostgreSQL")]
+    Services -- MailKit --> SMTP["SMTP server"]
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
+
+## Differences from HARMONY
+
+| Area | HARMONY | Accord |
+| --- | --- | --- |
+| Language | Go | C# / .NET 10 |
+| Frontend | HTMX and Go templates | Blazor Server |
+| Sign-in | OAuth2 with external providers | Magic link by email |
+| Templates | Per-user template management | Default PARIS templates for all users |
 
 ## Stack
 
-- **C# / .NET 10** — backend and application logic
-- **Blazor Server** — interactive frontend, server-side rendered components
-- **Entity Framework Core** — data access (PostgreSQL via Npgsql)
-- **Bootstrap 5** — styling (consistent with the original)
-- **MailKit** — Magic Link email delivery
+- C# / .NET 10, Blazor Server
+- Entity Framework Core, PostgreSQL (Npgsql)
+- Bootstrap 5
+- MailKit
 
-## Status
+## Run locally
 
-Active development. See [PLAN.md](PLAN.md) for current progress and [ARCHITECTURE.md](ARCHITECTURE.md) for technical design.
+You need the .NET 10 SDK and Docker.
+
+```bash
+Mail__Port=1025 make dev
+```
+
+This starts PostgreSQL and Maildev, then runs the application with `dotnet watch` on http://localhost:8000. The application applies migrations and loads the templates at startup.
+
+## License
+
+[MPL 2.0](LICENSE)
